@@ -9,6 +9,7 @@
     <ItemGroup>
       <Folder Include="Cache\" />
       <Folder Include="Helpers\" />
+      <Folder Include="Options\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
