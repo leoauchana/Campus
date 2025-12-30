@@ -8,25 +8,19 @@ public class Pay : EntityBase
     public DateTime PayDate { get; private set; }
     public float Amount { get; private set; }
     public TypeMethod TypeMethod { get; private set; }
-
-    private readonly List<Fee> _fees = new();
-    public IReadOnlyCollection<Fee> Fees => _fees.AsReadOnly();
+    public Fee Fee { get; private set; }
+    public  Guid FeeId { get; private set; }
     public Administrator Administrator { get; private set; }
     public Guid AdministratorId { get; private set; }
     protected Pay(){}
-    public Pay(float amount, TypeMethod typeMethod, Administrator administrator)
+    public Pay(float amount, TypeMethod typeMethod, Administrator administrator, Fee fee)
     {
         PayDate = DateTime.Now;
         Amount = amount;
         TypeMethod = typeMethod;
         Administrator = administrator;
         AdministratorId = administrator.Id;
-    }
-
-    public void AddFee(Fee fee)
-    {
-        if(fee is null)
-            throw new ArgumentNullException(nameof(fee));
-        _fees.Add(fee);
+        Fee = fee;
+        FeeId = fee.Id;
     }
 }
