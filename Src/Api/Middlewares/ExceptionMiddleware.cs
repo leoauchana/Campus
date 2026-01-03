@@ -1,3 +1,8 @@
+using System.Net;
+using System.Text.Json;
+using Application.Exceptions;
+using Domain.Exceptions;
+
 namespace Api.Middlewares;
 
 public class ExceptionMiddleware
@@ -27,7 +32,7 @@ public class ExceptionMiddleware
             var jsonResponse = JsonSerializer.Serialize(response);
             await context.Response.WriteAsync(jsonResponse);
         }
-        catch (BusinessConflicException ex)
+        catch (BusinessConflictException ex)
         {
             _logger.LogError(ex, ex.Message);
             context.Response.ContentType = "application/json";
