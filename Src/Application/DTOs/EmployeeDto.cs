@@ -1,7 +1,8 @@
 namespace Application.DTOs;
 
-public class UserDto
+public class EmployeeDto
 {
     public record Request();
+
     public record Response();
 }
