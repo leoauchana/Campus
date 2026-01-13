@@ -1,0 +1,16 @@
+[33m972dc29[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m)[m feature: Implementación de extension de servicios en capa de datos y llamada en program
+[33mf0cfe59[m feature: Implementación de extension de servicios en capa de aplicación y configuración en clase program
+[33m119202c[m feature: Implementación de endpoints en controlador de empleados.
+[33m408f5de[m refactor: Modificación de firmas de métodos en IRepositorio y Repositorio
+[33m72d54f3[m[33m ([m[1;31morigin/dev[m[33m)[m feature: Implementación de interfaz de repsotiorio e implementación y creación del context
+[33macd33bc[m chore: Cambio de nombre de servicio usuario a empleado, y refactorización de clase program
+[33m515eee5[m refactor: Definicio de excepciones de la api
+[33m244d55c[m refactor: Finalizando implementacion de middleware de excepcion y creacion de estructura de api en capa de dominio
+[33m9e36b10[m cfeat Implementación de middleware de excepcion
+[33mf735400[m refactor: Modificación de las relaciones de negocio entre las entidades Fee, inscription y pay
+[33m55d7dcf[m frefactor: Sustitución de propiedades por value object en entidad persona
+[33m95be873[m feat: Implementación de entidades de dominio y sus respectivas relaciones
+[33mc0b020d[m feat: definiendo entidades del dominio
+[33mb3f0b59[m refactor: Cambiando nombre de carpeta
+[33md0a6b7f[m imsg: Creación de entidades
+[33m500186d[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m Inicialización de proyecto junto a archivo README.md

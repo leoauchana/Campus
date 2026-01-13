@@ -1,11 +1,14 @@
 using Api.Middlewares;
 using Application;
+using Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
 builder.Services.AddApplicationServices();
+
+builder.Services.AddDataServices();
 
 var app = builder.Build();
 
