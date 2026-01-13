@@ -5,33 +5,35 @@ namespace Application.Services;
 
 public class EmployeeService : IEmployeeService
 {
-
+    
     public EmployeeService()
     {
         
     }
-    public Task<UserDto> Create(UserDto userDto)
+
+    public async Task<EmployeeDto.Response?> Create(EmployeeDto.Request employeeDto)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UserDto> Update(UserDto userDto)
+    public async Task<EmployeeDto.Response> Update(EmployeeDto.Request employeeDto)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(UserDto userDto)
+    public async Task Delete(string id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<UserDto>> GetAll()
+    public async Task<List<EmployeeDto.Response>?> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public Task<UserDto> GetById(string id)
+    public async Task<EmployeeDto.Response?> GetById(string id)
     {
         throw new NotImplementedException();
     }
+
 }

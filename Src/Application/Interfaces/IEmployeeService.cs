@@ -4,9 +4,9 @@ namespace Application.Interfaces;
 
 public interface IEmployeeService
 {
-    Task<UserDto> Create(UserDto userDto);
-    Task<UserDto> Update(UserDto userDto);
-    Task Delete(UserDto userDto);
-    Task<List<UserDto>> GetAll();
-    Task<UserDto> GetById(string id);
+    Task<EmployeeDto.Response?> Create(EmployeeDto.Request employeeDto);
+    Task<EmployeeDto.Response> Update(EmployeeDto.Request employeeDto);
+    Task Delete(string id);
+    Task<List<EmployeeDto.Response>?> GetAll();
+    Task<EmployeeDto.Response?> GetById(string id);
 }
