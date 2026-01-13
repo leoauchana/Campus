@@ -15,30 +15,30 @@ public class Repository : IRepository
         _context = context;
     }
 
-    public async Task Update<TEntity>(TEntity entidad) where TEntity : EntityBase
+    public async Task Update<TEntity>(TEntity entity) where TEntity : EntityBase
     {
-        _context.Update(entidad);
+        _context.Update(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Add<TEntity>(TEntity entidad) where TEntity : EntityBase
+    public async Task Add<TEntity>(TEntity entity) where TEntity : EntityBase
     {
-        await _context.Set<TEntity>().AddAsync(entidad);
+        await _context.Set<TEntity>().AddAsync(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete<TEntity>(TEntity entidad) where TEntity : EntityBase
+    public async Task Delete<TEntity>(TEntity entity) where TEntity : EntityBase
     {
-        _context.Set<TEntity>().Remove(entidad);
+        _context.Set<TEntity>().Remove(entity);
         await _context.SaveChangesAsync();
     }
 
-    private IQueryable<TEntity> Incluir<TEntity>(IQueryable<TEntity> consulta, string[] incluidos)
+    private IQueryable<TEntity> Incluir<TEntity>(IQueryable<TEntity> query, string[] included)
         where TEntity : EntityBase
     {
-        var incluidosConsulta = consulta;
+        var incluidosConsulta = query;
 
-        foreach (var incluido in incluidos)
+        foreach (var incluido in included)
         {
             incluidosConsulta = incluidosConsulta.Include(incluido);
         }
@@ -46,49 +46,49 @@ public class Repository : IRepository
         return incluidosConsulta;
     }
 
-    private IQueryable<TEntity> Incluir<TEntity>(IQueryable<TEntity> consulta,
-        params Expression<Func<TEntity, object>>[] includes) where TEntity : EntityBase
+    private IQueryable<TEntity> Incluir<TEntity>(IQueryable<TEntity> query,
+        params Expression<Func<TEntity, object>>[] included) where TEntity : EntityBase
     {
-        foreach (var include in includes)
+        foreach (var include in included)
         {
-            consulta = consulta.Include(include);
+            query = query.Include(include);
         }
 
-        return consulta;
+        return query;
     }
 
-    public async Task<List<TEntity>> List<TEntity>(Expression<Func<TEntity, bool>> predicado,
-        params string[] incluidos) where TEntity : EntityBase
+    public async Task<List<TEntity>> List<TEntity>(Expression<Func<TEntity, bool>> predicate,
+        params string[] included) where TEntity : EntityBase
     {
-        return await Incluir(_context.Set<TEntity>(), incluidos).Where(predicado).ToListAsync();
+        return await Incluir(_context.Set<TEntity>(), included).Where(predicate).ToListAsync();
     }
 
-    public async Task<List<TEntity>> ListAll<TEntity>(params string[] incluidos) where TEntity : EntityBase
+    public async Task<List<TEntity>> ListAll<TEntity>(params string[] included) where TEntity : EntityBase
     {
-        return await Incluir(_context.Set<TEntity>(), incluidos).ToListAsync();
+        return await Incluir(_context.Set<TEntity>(), included).ToListAsync();
     }
 
-    public async Task<List<TEntity>> ListAllWith<TEntity>(params Expression<Func<TEntity, object>>[] includes)
+    public async Task<List<TEntity>> ListAllWith<TEntity>(params Expression<Func<TEntity, object>>[] included)
         where TEntity : EntityBase
     {
-        return await Incluir(_context.Set<TEntity>(), includes).ToListAsync();
+        return await Incluir(_context.Set<TEntity>(), included).ToListAsync();
     }
 
-    public async Task<TEntity?> GetTheFirstOne<TEntity>(Expression<Func<TEntity, bool>> predicado,
-        params string[] incluidos) where TEntity : EntityBase
+    public async Task<TEntity?> GetTheFirstOne<TEntity>(Expression<Func<TEntity, bool>> predicate,
+        params string[] included) where TEntity : EntityBase
     {
-        return await Incluir(_context.Set<TEntity>(), incluidos).FirstOrDefaultAsync(predicado);
+        return await Incluir(_context.Set<TEntity>(), included).FirstOrDefaultAsync(predicate);
     }
 
-    public async Task<TEntity?> GetForId<TEntity>(Guid id, params string[] incluidos) where TEntity : EntityBase
+    public async Task<TEntity?> GetForId<TEntity>(Guid id, params string[] included) where TEntity : EntityBase
     {
-        return await Incluir(_context.Set<TEntity>(), incluidos).SingleOrDefaultAsync(e => e.Id == id);
+        return await Incluir(_context.Set<TEntity>(), included).SingleOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<TEntity> GetForIdWith<TEntity>(Guid id, params Expression<Func<TEntity, object>>[] includes)
+    public async Task<TEntity> GetForIdWith<TEntity>(Guid id, params Expression<Func<TEntity, object>>[] included)
         where TEntity : EntityBase
     {
-        return await Incluir(_context.Set<TEntity>(), includes).SingleOrDefaultAsync(e => e.Id == id);
+        return await Incluir(_context.Set<TEntity>(), included).SingleOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<List<TEntity>> GetAll<TEntity>() where TEntity : EntityBase
