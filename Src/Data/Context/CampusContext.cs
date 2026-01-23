@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context;
@@ -8,18 +9,20 @@ public class CampusContext : DbContext
     public CampusContext(DbContextOptions<CampusContext> options) : base(options)
     {
     }
+
     public DbSet<Administrator> Administrators { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
-    public DbSet<Alumn>  Alumns { get; set; }
-    public DbSet<Inscription>  Inscriptions { get; set; }
-    public DbSet<Fee>  Fees { get; set; }
+    public DbSet<Alumn> Alumns { get; set; }
+    public DbSet<Inscription> Inscriptions { get; set; }
+    public DbSet<Fee> Fees { get; set; }
     public DbSet<Class> Classes { get; set; }
     public DbSet<Course> Courses { get; set; }
-    public DbSet<Content>  Contents { get; set; }
-    public DbSet<Material>  Materials { get; set; }
-    public DbSet<Pay> Pays  { get; set; }
-    public DbSet<Rule>  Rules { get; set; }
+    public DbSet<Content> Contents { get; set; }
+    public DbSet<Material> Materials { get; set; }
+    public DbSet<Pay> Pays { get; set; }
+    public DbSet<Rule> Rules { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         AdminConfig(modelBuilder);
@@ -35,6 +38,7 @@ public class CampusContext : DbContext
         PayConfig(modelBuilder);
         RuleConfig(modelBuilder);
     }
+
     private void AdminConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Administrator>()
@@ -54,28 +58,52 @@ public class CampusContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Administrator>()
             .Property(a => a.Dni)
+            .HasConversion(
+                dni => dni.Value,
+                value => Dni.Create(value)
+            )
             .HasColumnType("varchar")
             .IsRequired();
-        modelBuilder.Entity<Administrator>()
-            .Property(a => a.Domicilie.City)
-            .HasColumnType("varchar")
-            .HasMaxLength(30)
-            .IsRequired();
-        modelBuilder.Entity<Administrator>()
-            .Property(a => a.Domicilie.Street)
-            .HasColumnType("varchar")
-            .HasMaxLength(50)
-            .IsRequired();
-        modelBuilder.Entity<Administrator>()
-            .Property(a => a.Domicilie.Number)
-            .HasColumnType("int")
-            .IsRequired();
+        modelBuilder.Entity<Administrator>(a =>
+        {
+            a.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.City)
+                    .HasColumnType("varchar")
+                    .HasMaxLength(30)
+                    .IsRequired();
+            });
+        });
+        modelBuilder.Entity<Administrator>(a =>
+        {
+            a.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.Street)
+                    .HasColumnType("varchar")
+                    .HasMaxLength(30)
+                    .IsRequired();
+            });
+        });
+        modelBuilder.Entity<Administrator>(a =>
+        {
+            a.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.Number)
+                    .HasColumnType("int")
+                    .IsRequired();
+            });
+        });
         modelBuilder.Entity<Administrator>()
             .Property(a => a.Email)
+            .HasConversion(
+                email => email.Value,
+                value => Email.Create(value)
+            )
             .HasColumnType("varchar")
             .HasMaxLength(100)
             .IsRequired();
     }
+
     private void UserConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
@@ -90,6 +118,7 @@ public class CampusContext : DbContext
             .HasMaxLength(20)
             .IsRequired();
     }
+
     private void AlumnConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Alumn>()
@@ -109,28 +138,52 @@ public class CampusContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Alumn>()
             .Property(a => a.Dni)
+            .HasConversion(
+                dni => dni.Value,
+                value => Dni.Create(value)
+            )
             .HasColumnType("varchar")
             .IsRequired();
-        modelBuilder.Entity<Alumn>()
-            .Property(a => a.Domicilie.City)
-            .HasColumnType("varchar")
-            .HasMaxLength(30)
-            .IsRequired();
-        modelBuilder.Entity<Alumn>()
-            .Property(a => a.Domicilie.Street)
-            .HasColumnType("varchar")
-            .HasMaxLength(50)
-            .IsRequired();
-        modelBuilder.Entity<Alumn>()
-            .Property(a => a.Domicilie.Number)
-            .HasColumnType("int")
-            .IsRequired();
+        modelBuilder.Entity<Alumn>(a =>
+        {
+            a.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.City)
+                    .HasColumnType("varchar")
+                    .HasMaxLength(30)
+                    .IsRequired();
+            });
+        });
+        modelBuilder.Entity<Alumn>(a =>
+        {
+            a.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.Street)
+                    .HasColumnType("varchar")
+                    .HasMaxLength(30)
+                    .IsRequired();
+            });
+        });
+        modelBuilder.Entity<Alumn>(a =>
+        {
+            a.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.Number)
+                    .HasColumnType("int")
+                    .IsRequired();
+            });
+        });
         modelBuilder.Entity<Alumn>()
             .Property(a => a.Email)
+            .HasConversion(
+                email => email.Value,
+                value => Email.Create(value)
+            )
             .HasColumnType("varchar")
             .HasMaxLength(100)
             .IsRequired();
     }
+
     private void TeacherConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Teacher>()
@@ -150,24 +203,47 @@ public class CampusContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Teacher>()
             .Property(a => a.Dni)
+            .HasConversion(
+                dni => dni.Value,
+                value => Dni.Create(value)
+            )
             .HasColumnType("varchar")
             .IsRequired();
-        modelBuilder.Entity<Teacher>()
-            .Property(a => a.Domicilie.City)
-            .HasColumnType("varchar")
-            .HasMaxLength(30)
-            .IsRequired();
-        modelBuilder.Entity<Teacher>()
-            .Property(a => a.Domicilie.Street)
-            .HasColumnType("varchar")
-            .HasMaxLength(50)
-            .IsRequired();
-        modelBuilder.Entity<Teacher>()
-            .Property(a => a.Domicilie.Number)
-            .HasColumnType("int")
-            .IsRequired();
+        modelBuilder.Entity<Teacher>(t =>
+        {
+            t.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.City)
+                    .HasColumnType("varchar")
+                    .HasMaxLength(30)
+                    .IsRequired();
+            });
+        });
+        modelBuilder.Entity<Teacher>(t =>
+        {
+            t.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.Street)
+                    .HasColumnType("varchar")
+                    .HasMaxLength(30)
+                    .IsRequired();
+            });
+        });
+        modelBuilder.Entity<Teacher>(t =>
+        {
+            t.OwnsOne(d => d.Domicilie, dom =>
+            {
+                dom.Property(d => d.Number)
+                    .HasColumnType("int")
+                    .IsRequired();
+            });
+        });
         modelBuilder.Entity<Teacher>()
             .Property(a => a.Email)
+            .HasConversion(
+                email => email.Value,
+                value => Email.Create(value)
+            )
             .HasColumnType("varchar")
             .HasMaxLength(100)
             .IsRequired();
@@ -177,6 +253,7 @@ public class CampusContext : DbContext
             .HasMaxLength(50)
             .IsRequired();
     }
+
     private void InscriptionConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Inscription>()
@@ -189,6 +266,7 @@ public class CampusContext : DbContext
             .Property(i => i.Status)
             .IsRequired();
     }
+
     private void FeeConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Fee>()
@@ -203,20 +281,22 @@ public class CampusContext : DbContext
             .HasColumnType("int")
             .IsRequired();
     }
+
     private void ClassConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Class>()
-                .HasKey(c => c.Id);
+            .HasKey(c => c.Id);
         modelBuilder.Entity<Class>()
-                .Property(c => c.Number)
-                .HasColumnType("int")
-                .IsRequired();
+            .Property(c => c.Number)
+            .HasColumnType("int")
+            .IsRequired();
         modelBuilder.Entity<Class>()
             .Property(c => c.Description)
             .HasColumnType("varchar")
             .HasMaxLength(450)
             .IsRequired();
     }
+
     private void CourseConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Course>()
@@ -242,6 +322,7 @@ public class CampusContext : DbContext
             .HasColumnType("float")
             .IsRequired();
     }
+
     private void ContentConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Content>()
@@ -258,6 +339,7 @@ public class CampusContext : DbContext
             .HasMaxLength(450)
             .IsRequired();
     }
+
     private void MaterialConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Material>()
@@ -282,6 +364,7 @@ public class CampusContext : DbContext
             .HasMaxLength(255)
             .IsRequired();
     }
+
     private void PayConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Pay>()
@@ -298,6 +381,7 @@ public class CampusContext : DbContext
             .HasColumnType("float")
             .IsRequired();
     }
+
     private void RuleConfig(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Rule>()

@@ -4,6 +4,8 @@ using Data;
 using DefaultNamespace;
 using Transversal.Configurations;
 
+// TODO: Deserializar clase domicilio con propiedades individuales, debido a limitación de EF
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOptions<DatabaseOptions>()

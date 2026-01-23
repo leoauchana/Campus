@@ -5,12 +5,12 @@ namespace Domain.Entities;
 
 public abstract class Person : EntityBase
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public Email Email { get; set; }
-    public Dni Dni { get; set; }
-    public int Age { get; set; }
-    public Domicilie Domicilie { get; set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public Email Email { get; private set; }
+    public Dni Dni { get; private set; }
+    public int Age { get; private set; }
+    public Domicilie Domicilie { get; private set; }
     protected Person(){}
 
     protected Person(string  firstName, string lastName, Email email, Dni dni, int age, Domicilie domicilie)
