@@ -9,17 +9,17 @@ namespace Api.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly ITeacherService _teacherService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(ITeacherService teacherService)
         {
-            _employeeService = employeeService;
+            _teacherService = teacherService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var employees = await _employeeService.GetAll();
+            var employees = await _teacherService.GetAll();
             if (employees == null) return BadRequest("Hubo un error al obtener los profesores.");
             return Ok(new
             {
@@ -29,9 +29,9 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] EmployeeDto.Request newEmployee)
+        public async Task<IActionResult> Add([FromBody] TeacherDto.Request newEmployee)
         {
-            var employeeRegistered = await _employeeService.Create(newEmployee);
+            var employeeRegistered = await _teacherService.Create(newEmployee);
             if (employeeRegistered == null) return BadRequest("Hubo un error al registrar al nuevo profesor");
             return Ok(new
             {
@@ -43,7 +43,7 @@ namespace Api.Controllers
         [HttpGet("getById/{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var employeeFound = await _employeeService.GetById(id);
+            var employeeFound = await _teacherService.GetById(id);
             if (employeeFound == null) return BadRequest("Hubo un error al obtener al profesor.");
             return Ok(new
             {
@@ -55,7 +55,7 @@ namespace Api.Controllers
         [HttpDelete("/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _employeeService.Delete(id);
+            await _teacherService.Delete(id);
             return Ok("Profesor eliminado con éxito.");
         }
     }
